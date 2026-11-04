@@ -1,0 +1,105 @@
+/* Display-only overlays are independent of the video crop and OrbitControls. */
+.scene-window-overlays {
+ --scene-panel-rgb:24,28,31;--scene-border-rgb:245,244,238;--scene-line:rgba(245,244,238,.17);--scene-text:#f2f0e9;--scene-muted:#b8bcb8;--scene-accent:#f4ac8d;--scene-track:rgba(255,255,255,.17);--scene-panel-margin:12px;--scene-panel-gap:12px;
+ position:fixed;inset:0;z-index:4;pointer-events:none;
+ color:var(--scene-text);font:13px/1.45 "Microsoft YaHei UI","Microsoft YaHei",sans-serif;
+}
+.scene-window-overlays[data-theme="light"] {--scene-panel-rgb:250,249,246;--scene-border-rgb:43,43,39;--scene-line:rgba(43,43,39,.2);--scene-text:#292b2c;--scene-muted:#656862;--scene-accent:#a64c32;--scene-track:rgba(43,43,39,.14)}
+.scene-window-overlays,.scene-window-overlays * {box-sizing:border-box;pointer-events:none!important}
+.scene-window-overlays [hidden] {display:none!important}
+.scene-window-resize-handles {position:fixed;inset:0;z-index:8;pointer-events:none}
+.scene-window-resize-handle {position:absolute;top:0;bottom:0;width:8px;border:0;background:transparent;cursor:ew-resize;touch-action:none;pointer-events:auto}
+.scene-window-resize-left {left:0}
+.scene-window-resize-right {right:0}
+.scene-overlay-card {
+ --scene-panel-x:0;--scene-panel-y:0;--scene-panel-opacity:.9;--scene-panel-scale:1;--scene-panel-fit:1;--scene-panel-effective-scale:calc(var(--scene-panel-scale) * var(--scene-panel-fit));--scene-card-width:260px;
+ --scene-line:rgba(var(--scene-border-rgb),calc(var(--scene-panel-opacity) * .2));
+ position:absolute;grid-area:auto;width:var(--scene-card-width);min-width:0;min-height:0;overflow:hidden;
+ max-width:calc((100% - 2 * var(--scene-panel-margin)) / var(--scene-panel-effective-scale));max-height:calc((100% - 2 * var(--scene-panel-margin)) / var(--scene-panel-effective-scale));
+ left:calc(var(--scene-panel-margin) + (100% - 2 * var(--scene-panel-margin)) * var(--scene-panel-x));
+ top:calc(var(--scene-panel-margin) + (100% - 2 * var(--scene-panel-margin)) * var(--scene-panel-y));
+ transform:translate(calc(-100% * var(--scene-panel-x)),calc(-100% * var(--scene-panel-y))) scale(var(--scene-panel-effective-scale));
+ transform-origin:calc(100% * var(--scene-panel-x)) calc(100% * var(--scene-panel-y));
+ padding:10px 12px;border:1px solid var(--scene-line);border-radius:9px;background:rgba(var(--scene-panel-rgb),var(--scene-panel-opacity));
+}
+.scene-overlay-card:not(.scene-overlay-rules) {width:min(var(--scene-card-width),calc((100% - 2 * var(--scene-panel-margin) - var(--scene-panel-gap)) / 2))}
+.scene-overlay-queue {--scene-panel-x:1;--scene-card-width:242px}
+.scene-overlay-rules {--scene-panel-y:1;--scene-rules-accent:#ff795f}
+.scene-overlay-current {--scene-panel-x:1;--scene-panel-y:1}
+.scene-window-overlays[data-theme="light"] .scene-overlay-rules {--scene-rules-accent:#b1472e}
+.scene-overlay-rules :is(.scene-overlay-heading h2,.scene-trigger-prefix,.scene-rule-amount) {color:var(--scene-rules-accent)}
+.scene-trigger-prefix {font-weight:600;white-space:nowrap}
+.scene-trigger-result {color:var(--scene-text)}
+.scene-overlay-heading {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;min-width:0}
+.scene-overlay-heading h2 {margin:0;color:var(--scene-muted);font-size:12px;font-weight:600;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scene-overlay-total {color:var(--scene-text);font:600 15px/1.1 "Cascadia Code",Consolas,monospace;flex:none}
+.scene-overlay-empty {margin:4px 0 0;color:var(--scene-muted);font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.scene-overlay-triggers {margin:0 0 6px;padding:0 0 7px;border-bottom:1px solid var(--scene-line)}
+.scene-overlay-trigger {font-size:12px;color:var(--scene-text);overflow-wrap:anywhere}
+.scene-overlay-trigger + .scene-overlay-trigger {margin-top:4px}
+.scene-overlay-rule {display:grid;grid-template-columns:21px minmax(0,1fr) auto;align-items:center;gap:7px;min-height:31px}
+.scene-rule-icon {display:block;width:21px;height:21px;object-fit:contain}
+.scene-rule-other {text-align:center;font-size:18px;line-height:1;color:var(--scene-muted)}
+.scene-rule-name {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.scene-rule-amount {color:var(--scene-accent);font-size:12px;white-space:nowrap;font-weight:600}
+.scene-overlay-queue-list {list-style:none;margin:0;padding:0}
+.scene-overlay-queue-row {display:flex;align-items:center;gap:7px;min-width:0;min-height:38px;padding:5px 0;border-top:1px solid var(--scene-line)}
+.scene-overlay-queue-row:first-child {border-top:0;padding-top:0}
+.scene-queue-order {flex:none;width:13px;font:10px/1.2 "Cascadia Code",Consolas,monospace;color:var(--scene-muted)}
+.scene-overlay-avatar {position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:27px;height:27px;overflow:hidden;border-radius:6px;background:var(--scene-track);color:var(--scene-text)}
+.scene-overlay-avatar img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scene-avatar-initial {font-size:13px;font-weight:600}
+.scene-queue-person,.scene-current-info {flex:1;min-width:0}
+.scene-queue-name,.scene-current-name {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:500}
+.scene-queue-meta {display:flex;align-items:center;gap:7px;color:var(--scene-muted);font-size:10px;line-height:1.5}
+.scene-queue-priority {color:var(--scene-accent);white-space:nowrap}
+.scene-current-person {display:flex;align-items:center;gap:8px;min-width:0}
+.scene-current-avatar-slot {display:contents}
+.scene-current-avatar {width:31px;height:31px}
+.scene-current-status {display:block;color:var(--scene-muted);font-size:11px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scene-current-score {flex:none;white-space:nowrap;color:var(--scene-accent);font:600 17px/1.2 "Cascadia Code",Consolas,monospace}
+.scene-current-progress {height:3px;overflow:hidden;border-radius:3px;background:var(--scene-track);margin-top:9px}
+.scene-current-progress i {display:block;height:100%;background:var(--scene-accent);border-radius:3px}
+.scene-stat-primary {display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.scene-stat-primary>div {display:flex;align-items:center;justify-content:space-between;gap:5px;min-width:0}
+.scene-stat-primary>div>span {color:var(--scene-muted);font-size:11px;white-space:nowrap}
+.scene-stat-primary strong {font:600 17px/1.3 "Cascadia Code",Consolas,monospace;color:var(--scene-text);white-space:nowrap}
+.scene-stat-secondary {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px;padding-top:7px;border-top:1px solid var(--scene-line)}
+.scene-stat-secondary>div {min-width:0;display:flex;align-items:center;gap:4px;justify-content:space-between;font-size:10px;color:var(--scene-muted)}
+.scene-stat-secondary strong {font:500 11px/1.3 "Cascadia Code",Consolas,monospace;color:var(--scene-text)}
+.scene-window-overlays[data-orientation="portrait"] {--scene-panel-margin:10px;--scene-panel-gap:10px}
+.scene-window-overlays[data-orientation="portrait"] .scene-overlay-card {padding:8px;width:min(var(--scene-card-width),calc((100% - 2 * var(--scene-panel-margin) - var(--scene-panel-gap)) / 2))}
+.scene-window-overlays[data-orientation="portrait"] .scene-overlay-heading {margin-bottom:6px}
+.scene-window-overlays[data-orientation="portrait"] .scene-overlay-rule {grid-template-columns:18px minmax(0,1fr) auto;gap:5px;min-height:29px}
+.scene-window-overlays[data-orientation="portrait"] .scene-rule-icon {width:18px;height:18px}
+.scene-window-overlays[data-orientation="portrait"] .scene-rule-name {font-size:12px}
+.scene-window-overlays[data-orientation="portrait"] .scene-rule-amount {font-size:11px}
+.scene-window-overlays[data-orientation="portrait"] .scene-overlay-queue-row {gap:5px;min-height:39px}
+.scene-window-overlays[data-orientation="portrait"] .scene-queue-order {display:none}
+.scene-window-overlays[data-orientation="portrait"] .scene-current-person {gap:6px;flex-wrap:wrap}
+.scene-window-overlays[data-orientation="portrait"] .scene-current-info {min-width:60px}
+.scene-window-overlays[data-orientation="portrait"] .scene-current-score {font-size:15px}
+.scene-window-overlays[data-orientation="portrait"] .scene-stat-primary {gap:6px}
+.scene-window-overlays[data-orientation="portrait"] .scene-stat-primary>div {display:block}
+.scene-window-overlays[data-orientation="portrait"] .scene-stat-primary strong {display:block;margin-top:2px}
+.scene-window-overlays[data-orientation="portrait"] .scene-stat-secondary {gap:4px}
+.scene-window-overlays[data-orientation="portrait"] .scene-stat-secondary>div {display:block}
+.scene-window-overlays[data-orientation="portrait"] .scene-stat-secondary strong {display:block;margin-top:2px}
+/* Density depends on each panel's effective space after scaling, not on other
+   visible cards. Keep the complete comment and all four gift rows at all sizes. */
+.scene-overlay-card:is([data-density="compact"],[data-density="tight"]) {padding:6px 8px}
+.scene-overlay-card:is([data-density="compact"],[data-density="tight"]) .scene-overlay-heading {margin-bottom:4px}
+.scene-overlay-card:is([data-density="compact"],[data-density="tight"]) .scene-overlay-rule {min-height:24px}
+.scene-overlay-card:is([data-density="compact"],[data-density="tight"]) .scene-overlay-queue-row {min-height:30px;padding:3px 0}
+.scene-overlay-card:is([data-density="compact"],[data-density="tight"]) .scene-overlay-queue-row:nth-child(n+4) {display:none}
+.scene-overlay-card:is([data-density="compact"],[data-density="tight"]) .scene-overlay-avatar {width:23px;height:23px}
+.scene-overlay-card[data-density="tight"] {padding:4px 5px}
+.scene-overlay-card[data-density="tight"] .scene-overlay-heading {margin-bottom:3px}
+.scene-overlay-card[data-density="tight"] .scene-overlay-heading h2 {font-size:11px}
+.scene-overlay-card[data-density="tight"] .scene-overlay-triggers {margin-bottom:3px;padding-bottom:3px}
+.scene-overlay-card[data-density="tight"] .scene-overlay-trigger {font-size:10.5px}
+.scene-overlay-card[data-density="tight"] .scene-overlay-trigger + .scene-overlay-trigger {margin-top:2px}
+.scene-overlay-card[data-density="tight"] .scene-overlay-rule {grid-template-columns:16px minmax(0,1fr) auto;gap:4px;min-height:21px}
+.scene-overlay-card[data-density="tight"] .scene-rule-icon {width:16px;height:16px}
+.scene-overlay-card[data-density="tight"] .scene-rule-name {font-size:10.5px}
+.scene-overlay-card[data-density="tight"] .scene-rule-amount {font-size:10px}

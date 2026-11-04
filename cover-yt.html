@@ -1,0 +1,59 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
+.cover{position:relative;overflow:hidden;background:#0b0e14}
+.cover .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,16,.15) 0%,rgba(6,10,16,.55) 45%,rgba(6,10,16,.92) 100%)}
+.cover .tk-shade{background:linear-gradient(180deg,rgba(6,10,16,.05) 0%,rgba(6,10,16,.25) 38%,rgba(6,10,16,.9) 72%,#05080c 100%)}
+.badge{position:absolute;top:4.5%;left:4.5%;display:flex;gap:12px}
+.badge span{padding:10px 22px;border-radius:999px;font-weight:900;letter-spacing:2px}
+.b-open{background:rgba(255,104,82,.95);color:#fff;font-size:26px}
+.b-free{background:rgba(255,188,121,.95);color:#241505;font-size:26px}
+.title-wrap{position:absolute;left:4.5%;right:4.5%;bottom:9%}
+.kicker{display:inline-block;background:#ffbc79;color:#241505;font-weight:900;font-size:24px;padding:8px 20px;border-radius:8px;margin-bottom:18px;letter-spacing:3px}
+h1{color:#fff;font-size:96px;font-weight:900;line-height:1.08;letter-spacing:2px;text-shadow:0 6px 30px rgba(0,0,0,.85),0 2px 0 #ff6852}
+h1 em{font-style:normal;color:#ffbc79}
+.sub{margin-top:20px;color:#e8eef6;font-size:36px;font-weight:700;letter-spacing:2px;text-shadow:0 3px 14px rgba(0,0,0,.9)}
+.sub b{color:#67e8ff}
+.pill-row{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}
+.pill{padding:12px 26px;border-radius:999px;font-size:26px;font-weight:900;letter-spacing:2px;border:2px solid rgba(255,255,255,.35);background:rgba(10,14,20,.55);color:#fff}
+.pill.hot{background:#ff6852;border-color:#ff6852}
+.pill.gold{background:#ffbc79;border-color:#ffbc79;color:#241505}
+/* —— YouTube 1280×720 —— */
+#yt{width:1280px;height:720px}
+#yt h1{font-size:84px}
+#yt .sub{font-size:32px}
+#yt .kicker{font-size:20px}
+#yt .badge span{font-size:21px;padding:8px 18px}
+/* —— TikTok 1080×1920 —— */
+#tk{width:1080px;height:1920px}
+#tk .bg{object-position:50% 18%}
+#tk .tk-shade{position:absolute;inset:0}
+#tk .badge{top:3.2%;left:6%;right:6%}
+#tk .badge span{font-size:30px;padding:12px 26px}
+#tk .title-wrap{left:6%;right:6%;bottom:7%}
+#tk h1{font-size:118px}
+#tk .sub{font-size:42px;line-height:1.5}
+#tk .kicker{font-size:28px}
+#tk .pill{font-size:30px;padding:14px 30px}
+#tk .pill-row{gap:16px}
+</style></head><body>
+
+<div class="cover" id="yt">
+  <img class="bg" src="docs/screenshots/01-3d-scene.jpg" alt="" style="width:122%;height:122%;left:-13%;top:-11%">
+  <div class="shade"></div>
+  <div class="badge"><span class="b-open">开源免费</span><span class="b-free">完整教程</span></div>
+  <div class="title-wrap">
+    <div class="kicker">零基础入门全流程</div>
+    <h1>3D 打印直播间<br><em>评论变头像</em>，实时打印</h1>
+    <div class="sub">观众发评论 → 机械臂抓取 → <b>专属 3D 头像</b>打给你</div>
+    <div class="pill-row">
+      <span class="pill hot">▶ 完整教程</span>
+      <span class="pill">抖音 · TikTok · YouTube</span>
+      <span class="pill gold">GitHub 开源</span>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

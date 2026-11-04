@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>帮助中心 · 头像打印机</title>
+<script>
+(() => {
+  const requested = new URLSearchParams(location.search).get('theme');
+  if (requested === 'light') document.documentElement.dataset.theme = 'light';
+})();
+</script>
+<link rel="stylesheet" href="assets/help.css">
+</head>
+<body>
+<div class="help-layout">
+  <nav class="help-nav" aria-label="帮助内容">
+    <div class="nav-label">使用帮助</div>
+    <a href="#start" aria-current="location"><span class="nav-number">01</span>快速上手</a>
+    <a href="#features"><span class="nav-number">02</span>功能说明</a>
+    <a href="#faq"><span class="nav-number">03</span>常见问题</a>
+    <p class="nav-note">适用于 Windows 桌面版<br>功能介绍与操作教程已合并在此。</p>
+  </nav>
+
+  <main>
+    <section id="start" class="help-section" aria-labelledby="start-title">
+      <div class="section-heading"><span class="eyebrow">快速上手</span><h1 id="start-title">从启动到开播</h1><p>先用本地演示熟悉工作台，再接入直播间。常用操作集中在一个窗口。</p></div>
+      <ol class="steps">
+        <li><span class="step-number" aria-hidden="true">01</span><div><h2>打开桌面程序</h2><p>完整解压桌面包，双击 <code>AvatarPrinter.exe</code>。桌面包自带 Python 与 Node.js，无需另行安装；请保留同目录的 <code>app</code>、<code>runtime</code> 和 <code>_internal</code> 文件夹。</p><p class="supporting">支持 Windows 10 / 11（64 位），需要 Microsoft Edge WebView2 Runtime。把软件放在可写入的位置，以便保存登录状态与设置。</p></div></li>
+        <li><span class="step-number" aria-hidden="true">02</span><div><h2>填写直播间，登录抖音</h2><p>在右侧「直播连接」输入直播间号或 <code>live.douyin.com</code> 链接，点击「切换」，再点「登录抖音」。在临时窗口中自行完成扫码或验证；登录成功并保存后，窗口会自动关闭，采集在后台运行。</p><p class="supporting">登录状态保存在本机，无需让登录窗口一直开着。已有有效登录时可直接开始抓取；凭据失效后，再主动点击「登录抖音」。</p></div></li>
+        <li><span class="step-number" aria-hidden="true">03</span><div><h2>开始抓取，查看任务</h2><p>点击「开始抓取」，在「连接详情」分别查看本地数据服务与后台采集状态。数据服务连通后，还需后台采集显示「正在采集」，才表示已接入直播间。新的评论或礼物符合当前打印规则时会进入队列。</p><p class="supporting">右侧「队列」查看待打印任务，「记录」查看已完成头像的昵称、来源、大小、分数与时间。需要暂停接入时，点击「停止抓取」。</p></div></li>
+        <li><span class="step-number" aria-hidden="true">04</span><div><h2>输出到直播画面</h2><p>先在「设置 → 画面」选择横屏或竖屏、输出分辨率，再点击顶部「弹出画面」。在 OBS 或直播伴侣中添加窗口采集，选择「直播小窗 · Avatar Printer」。</p><p class="supporting">输出分辨率与小窗的屏幕显示尺寸独立：小窗可缩小以便操作，输出仍按画面设置运行。「设置 → 小窗」可控制置顶，以及队列、互动规则、当前任务和本场统计的显示；四个面板均可分别调整位置、背景不透明度与 60%–160% 的整体缩放。互动规则按已开启的评论、进场、点赞、关注和礼物打印配置显示。关闭全部画面信息后仅保留 3D 场景；小窗没有工作台导航或返回按钮。</p></div></li>
+      </ol>
+      <div class="inline-tip"><strong>只想先试一下？</strong><p>不连接直播间也能使用本地演示。在右侧「演示」选择测试观众，点击评论或礼物按钮，或运行完整规则演示；演示速度可选 1× / 4× / 12×。</p></div>
+      <details class="source-guide"><summary>从源码运行：环境准备与启动命令</summary><div class="details-content"><p>如果使用的是源码目录，而非免安装桌面包，需要 Python 3、pywebview、Node.js 22+ 与 WebView2 Runtime。可按项目依赖文件安装 Python 依赖：</p><pre><code>python -m pip install -r requirements-desktop.txt
+python launch.py</code></pre><p>也可以双击 <code>start.bat</code> 或 <code>start-all.bat</code> 启动桌面程序。需要按固定房间启动并抓取时：</p><pre><code>python launch.py --room 房间号 --capture</code></pre><p class="supporting">请通过程序启动的本地服务访问页面，直接双击 HTML 文件会受到浏览器模块加载限制。</p></div></details>
+    </section>
+
+    <section id="features" class="help-section" aria-labelledby="features-title">
+      <div class="section-heading"><span class="eyebrow">功能说明</span><h2 id="features-title">工作台各区域怎么用</h2><p>高频操作留在主界面，规则与细节设置收在抽屉中。</p></div>
+      <div class="feature-list">
+        <article><div class="feature-index">01</div><div><h3>打印现场与操作</h3><p>观众头像逐层成形，完成后展示娱乐评分，再由机械臂转运至横向传送带；前方成品与后方打印并行。「暂停」同时冻结打印和流水线，「跳过」只丢弃当前打印中的物品。</p><p class="supporting">按住画面拖动可以调整视角，滚轮缩放。软件呈现的是 3D 动画，不控制实体打印机。</p></div></article>
+        <article><div class="feature-index">02</div><div><h3>场景、机位与画面设置</h3><p>工具栏可切换温馨家庭、日光书房、雨夜工作角、复古手作室、清新植物房。最多保存 10 个命名机位，拖动后的视角和上次使用的机位会记忆；在画面设置中管理、重命名或删除机位。</p><p>「设置 → 画面」可调整横竖屏与分辨率、画质预设、抗锯齿、目标帧率、流畅优先及状态牌。高画质提高内部渲染精度，同时增加显卡和内存负担；性能不足时先选择标准或低画质。</p></div></article>
+        <article><div class="feature-index">03</div><div><h3>直播接入与观众头像</h3><p>后台采集直接接收直播间公开的评论、点赞、礼物、进场和关注事件，不依赖登录窗口一直运行。头像优先使用互动消息中的公开资料；暂时没有照片时显示彩色首字头像，后续互动可更新。</p><p class="supporting">具体用户与头像能否取得，取决于平台消息提供的公开资料；缺少用户信息的统计消息不等于逐条识别实际互动人。</p></div></article>
+        <article><div class="feature-index">04</div><div><h3>打印规则与礼物优先</h3><p>「设置 → 打印规则」分别控制评论、进场、点赞、关注和礼物是否打印、每次张数与头像大小。规则修改自动保存，对新收到的任务生效；已排队任务保持原设置。</p><dl class="rules-list"><div><dt>评论</dt><dd>默认开启，任意评论可触发 1 张小头像。</dd></div><div><dt>点赞 / 进场 / 关注</dt><dd>可独立开启打印，并设置张数和大小；进场欢迎可单独播报。</dd></div><div><dt>爱心 / 啤酒 / 棒棒糖</dt><dd>默认分别打印 1 / 2 / 3 张大头像；其他礼物默认 1 张。</dd></div><div><dt>礼物优先</dt><dd>开启后礼物优先处理，未完成的普通任务会保留后重打；礼物之间按顺序处理。</dd></div></dl></div></article>
+        <article><div class="feature-index">05</div><div><h3>声音、欢迎与礼物答谢</h3><p>打印、完成、输送和机械臂有对应音效。顶部声音快捷按钮控制全部声音；「设置 → 声音」可调整音效音量、互动播报、语音音色、语速，并试听或模拟进场欢迎。</p><p class="supporting">礼物答谢与进场欢迎也可在打印规则中独立控制。系统语音音色取决于当前设备。</p></div></article>
+        <article><div class="feature-index">06</div><div><h3>队列、记录与本场概览</h3><p>概览显示已打印、等待中及点赞、评论、礼物计数。队列标注昵称、头像大小与礼物优先；记录保留完成任务的信息。队列和记录在同一块面板中切换，长列表内部滚动。</p></div></article>
+        <article><div class="feature-index">07</div><div><h3>演示、导入与规则图</h3><p>演示面板提供测试观众、评论和礼物触发按钮、运行规则演示、重置及速度调整。支持批量导入本地头像替换演示素材池，也可查看和保存内置头像、下载透明背景的规则图 PNG。</p><p class="supporting">本地导入的图片不上传。自动演示与无互动补位是两个独立机制，可在打印规则中分别调整。</p></div></article>
+        <article><div class="feature-index">08</div><div><h3>独立输出与窗口分工</h3><p>直播小窗镜像主窗口渲染的场景，用于窗口采集；画面按比例铺满小窗内容区域，保留系统标题栏。打印和声音仍由主窗口控制。小窗连接后主界面收起重复画面，关闭小窗后恢复预览。小窗设置修改后立即同步并保存在本机。</p><p>在「设置 → 小窗」分别展开队列、互动规则、当前任务或本场统计的位置与样式，可用九宫格选位、水平/垂直微调、0%–100% 背景不透明度与 60%–160% 整体缩放。默认队列位于右上、规则左下、当前任务右下、统计左上；背景不透明度为 90%，缩放为 100%。整体缩放会让字体、头像和礼物图标等比变化；调整背景不透明度时，文字与图标保持清晰。</p><p>互动规则按已开启的评论、进场、点赞、关注和礼物打印配置显示，保留爱心、啤酒、棒棒糖的原始礼物图片；各项张数和头像大小随实际配置变化。评论展示以「评论 666 → 小图 × 1」举例，实际按已开启的评论打印规则处理收到的评论；规则标题、评论示例与输出数量随深浅主题采用局部强调色。旧版本保存的开关和规则样式会自动保留，并补齐其他面板的默认样式；关闭面板后仍保存其位置与样式。</p><p class="supporting">请保持主窗口运行。关闭主程序会清理本程序启动的数据桥与直播间登录窗口。</p></div></article>
+      </div>
+    </section>
+
+    <section id="faq" class="help-section" aria-labelledby="faq-title">
+      <div class="section-heading"><span class="eyebrow">常见问题</span><h2 id="faq-title">遇到问题时，先看这里</h2><p>从连接、画面到声音，按现象逐项检查。</p></div>
+      <div class="faq-list">
+        <details><summary>桌面程序打不开，或提示端口被占用？</summary><div class="details-content"><p>确认桌面包已完整解压，EXE 同目录的 <code>app</code>、<code>runtime</code>、<code>_internal</code> 都在，并已安装 WebView2 Runtime。关闭重复运行的旧实例后重开。</p><p>本地服务会尝试备用端口；如果仍失败，查看桌面包 <code>app/desktop-launch.log</code> 中的启动信息。源码版本则查看启动终端输出。</p></div></details>
+        <details><summary>开始抓取提示数据桥端口被占用？</summary><div class="details-content"><p>先停止抓取，并关闭旧版 ServerGuard、BridgeGuard 或另行启动的旧数据桥，再重试。当前版本会检查本程序的数据桥状态，并尝试可用端口；多份旧程序同时运行可能产生冲突。</p></div></details>
+        <details><summary>状态一直显示「等待直播动态」，没有任务进入队列？</summary><div class="details-content"><p>确认填写了正确房间号、直播间正在直播，并已保存有效登录。再点击「开始抓取」，到「连接详情」分别检查数据服务与后台采集状态。数据服务连通不代表直播采集成功；若提示登录失效，请主动点击「登录抖音」，错误不会自动反复弹出登录窗口。</p><p>没有新互动时会继续等待。已有互动但未打印时，检查对应的评论、点赞、进场、关注或礼物打印开关；已滚过的历史评论不会补打。</p></div></details>
+        <details><summary>有些观众显示彩色首字，没有照片头像？</summary><div class="details-content"><p>这是互动消息暂时没有照片头像时的替代显示。保存有效登录后，平台可能提供更完整的公开资料；观众后续有新互动时，头像可能更新为照片。</p><p>头像可否取得取决于直播页面提供的数据，不保证每个观众都能立即获取到照片。</p></div></details>
+        <details><summary>没有声音，或能听见音效但没有欢迎播报？</summary><div class="details-content"><p>首次使用时点击顶部「启用声音」。声音未就绪时会显示启用或重试提示，主动关闭后普通页面点击不会重新开启。在「设置 → 声音」可分别检查音效、互动播报、音量和音色，并点击试听；试听结束后保留原有开关设置。</p><p>进场欢迎和礼物答谢需要在打印规则中开启对应语音选项。仍有问题时，检查系统音量与输出设备，展开「声音诊断」使用测试音与独立播放器，必要时尝试修复声音。</p></div></details>
+        <details><summary>OBS 或直播伴侣采集小窗是黑屏？</summary><div class="details-content"><p>优先添加「窗口采集」，重新选择当前的「直播小窗 · Avatar Printer」。如果程序重开过，旧素材可能仍指向先前的窗口，需要重新选择。</p><p>保持主窗口开启，小窗需与主程序连接后才有画面。仍然黑屏时，可在「设置 → 画面」尝试采集兼容模式；该操作会重启程序并可能降低性能。</p></div></details>
+        <details><summary>画面卡顿、内存偏高，或小窗看起来不够清楚？</summary><div class="details-content"><p>在「设置 → 画面」先选择标准或低画质、30 FPS，并启用流畅优先。更高的内部渲染精度、反射、阴影和抗锯齿会增加资源消耗。</p><p>输出清晰度先看输出分辨率，再看采集软件中素材是否被放大。小窗显示尺寸小于输出分辨率是正常现象；提高精细度也不会让清晰度按倍数增加。</p></div></details>
+        <details><summary>没有观众消息，打印机为什么还在打印？</summary><div class="details-content"><p>本地演示和无互动补位都可以生成测试头像。在「设置 → 打印规则」分别检查「自动演示补位间隔」与「无互动时补测试头像」。补位等待时间可调整，真实观众消息到达后优先处理。</p></div></details>
+        <details><summary>怎么切换直播间？要重启软件吗？</summary><div class="details-content"><p>在主界面直播连接处填入新房间号或链接，回车或点击「切换」。软件会保存房间号，数据服务连接后切换后台采集；通常无需重启。需要重新登录时点击「登录抖音」，登录成功后窗口自动关闭。</p></div></details>
+        <details><summary>分数代表真实评价吗？</summary><div class="details-content"><p>分数为 60–95 的娱乐随机分，对应不同的打印材质与出分效果，仅用于直播互动，不是对观众或照片的真实评价。</p></div></details>
+        <details><summary>程序会自动发弹幕、点赞或赠送礼物吗？</summary><div class="details-content"><p>程序和数据桥读取直播间公开互动与公开头像，不代发弹幕、点赞或赠送礼物。需要登录时，由你在独立直播间窗口中自行操作。</p></div></details>
+        <details><summary>怎样结束使用？</summary><div class="details-content"><p>可以先停止抓取，再关闭主窗口。关闭主程序会停止本程序的数据桥，并清理它启动的直播间登录窗口。仅关闭直播小窗会恢复主窗口画面，不会结束主程序。</p></div></details>
+      </div>
+    </section>
+    <div class="help-end">界面中的设置会自动保存；修改打印规则只影响之后收到的新任务。</div>
+  </main>
+</div>
+<script>
+(() => {
+  const root = document.documentElement;
+  let themeTimer;
+  function applyTheme(theme) {
+    if (theme !== 'light' && theme !== 'dark') return;
+    root.classList.add('theme-changing');
+    root.dataset.theme = theme;
+    clearTimeout(themeTimer);
+    themeTimer = setTimeout(() => root.classList.remove('theme-changing'), 280);
+  }
+  window.addEventListener('message', event => {
+    if (window.parent === window || event.source !== window.parent || event.origin !== location.origin) return;
+    if (event.data?.type === 'workspace-theme') applyTheme(event.data.theme);
+  });
+  const links = [...document.querySelectorAll('.help-nav a')];
+  const sections = [...document.querySelectorAll('.help-section')];
+  function markCurrent(id) {
+    for (const link of links) {
+      if (link.hash === '#' + id) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
+  }
+  let scheduled = false;
+  function updateCurrent() {
+    scheduled = false;
+    const threshold = innerWidth <= 700 ? 125 : 90;
+    let current = sections[0];
+    for (const section of sections) if (section.getBoundingClientRect().top <= threshold) current = section;
+    if (current) markCurrent(current.id);
+  }
+  window.addEventListener('scroll', () => {
+    if (!scheduled) { scheduled = true; requestAnimationFrame(updateCurrent); }
+  }, { passive: true });
+  window.addEventListener('resize', updateCurrent);
+  for (const link of links) link.addEventListener('click', () => markCurrent(link.hash.slice(1)));
+  updateCurrent();
+})();
+</script>
+</body>
+</html>

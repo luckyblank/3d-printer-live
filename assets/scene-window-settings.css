@@ -1,0 +1,39 @@
+/* The fifth settings page shares the workbench's existing field and switch tokens. */
+body.workspace-app .workspace-settings-tabs { gap: clamp(12px,3vw,22px); overflow-x: auto; }
+body.workspace-app .workspace-settings-tabs > button { flex: 0 0 auto; white-space: nowrap; }
+body.workspace-app .scene-window-settings .scene-window-toggle { margin-top: 0; padding: 11px 0; }
+body.workspace-app .scene-window-settings .scene-window-toggle + .scene-window-toggle { border-top: 1px solid var(--ws-line); }
+body.workspace-app .scene-window-settings .settings-group-title { margin-bottom: 5px; }
+body.workspace-app .scene-window-settings .settings-toggle-copy { font-size: 13px; }
+body.workspace-app .scene-window-settings .settings-toggle-copy .settings-hint { font-size: 12px !important; line-height: 1.6 !important; }
+body.workspace-app .scene-window-settings .scene-window-intro { margin: 0 0 6px !important; font-size: 12px !important; line-height: 1.7 !important; color: var(--ws-muted) !important; }
+body.workspace-app .scene-window-settings .scene-window-platform-note { padding: 9px 10px; margin: 3px 0 0 !important; border-radius: 7px; color: var(--ws-muted) !important; background: var(--ws-field); font-size: 12px !important; }
+body.workspace-app .scene-window-settings .scene-window-save-note { margin: 0 !important; padding: 0 2px; font-size: 12px !important; }
+body.workspace-app .scene-window-settings :is(input,select):focus-visible { outline: 2px solid var(--ws-accent); outline-offset: 4px; }
+body.workspace-app .scene-window-settings .scene-window-panel-style { margin: -2px 0 6px; border-top: 0; border-bottom: 1px solid var(--ws-line); }
+body.workspace-app .scene-window-settings .scene-window-panel-style + .scene-window-toggle { border-top: 0; }
+body.workspace-app .scene-window-settings .scene-window-panel-style > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 5px; padding-bottom: 10px; font-size: 12px !important; }
+body.workspace-app .scene-window-settings .scene-window-panel-style > summary::after { top: 2px; }
+body.workspace-app .scene-window-style-title { min-width: 0; }
+body.workspace-app .scene-window-style-summary-value { flex: none; color: var(--ws-dim); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+body.workspace-app .scene-window-style-body { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; min-width: 0; margin: 0; padding: 3px 0 13px; border: 0; }
+body.workspace-app .scene-window-position-field { grid-column: 1 / -1; min-width: 0; }
+body.workspace-app .scene-window-range-field { display: grid; gap: 3px; min-width: 0; }
+body.workspace-app .scene-window-range-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+body.workspace-app .scene-window-range-value { flex: none; min-width: 4ch; color: var(--ws-text); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right; }
+body.workspace-app .scene-window-style-body input[type="range"] { min-height: 26px !important; }
+body.workspace-app .scene-window-style-body :is(input,select):disabled { cursor: not-allowed; opacity: .6; }
+body.workspace-app .scene-window-settings :is(.scene-window-style-note,.scene-window-style-disabled) { margin: 0 !important; font-size: 11px !important; }
+body.workspace-app .scene-window-settings .scene-window-style-note { grid-column: 1 / -1; }
+body.workspace-app .scene-window-settings .scene-window-style-disabled { padding-bottom: 11px; color: var(--ws-muted) !important; }
+body.workspace-app .scene-window-settings .scene-window-style-disabled[hidden] { display: none !important; }
+body.workspace-app.workspace-theme-changing .scene-window-settings :is(.scene-window-toggle,.scene-window-platform-note,.scene-window-intro,.scene-window-panel-style,.scene-window-range-value,.scene-window-style-summary-value) { transition: color 250ms ease,background-color 250ms ease,border-color 250ms ease; }
+@container (max-width:390px) {
+ body.workspace-app .scene-window-style-body { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width:420px) {
+ body.workspace-app .workspace-settings-tabs { gap: 14px; padding-right: 12px; padding-left: 12px; }
+}
+@media (prefers-reduced-motion:reduce) {
+ body.workspace-app.workspace-theme-changing .scene-window-settings :is(.scene-window-toggle,.scene-window-platform-note,.scene-window-intro,.scene-window-panel-style,.scene-window-range-value,.scene-window-style-summary-value) { transition: none !important; }
+}

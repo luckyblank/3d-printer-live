@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {DemoRules} from './demo-rules.mjs';
+test('新规则整轮7张及礼物优先FIFO',()=>{const r=new DemoRules();for(const t of ['like','heart','beer','lollipop'])r.event(t,{name:t},t);assert.equal(r.queue.length,7);assert.equal(r.queue.filter(j=>j.size==='large').length,6);assert.deepEqual(r.queue.map(j=>j.name),['heart','beer','beer','lollipop','lollipop','lollipop','like'])});

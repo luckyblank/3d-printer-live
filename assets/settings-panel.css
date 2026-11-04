@@ -1,0 +1,248 @@
+/* Shared field rhythm for the four real workspace settings pages. */
+/* The settings switch uses one thumb; suppress the legacy switch thumb. */
+body.workspace-app .settings-panel input[type="checkbox"]::after { content: none !important; }
+body.workspace-app .workspace-drawer.settings-enhanced-drawer,
+body.workspace-app .workspace-drawer:has(.settings-panel) { width: 560px; max-width: 100%; }
+body.workspace-app .workspace-settings-body:has(.settings-panel) { padding: 0 18px 18px; }
+body.workspace-app .settings-panel {
+  container-type: inline-size;
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+  padding: 15px 0 0;
+  color: var(--ws-text);
+}
+body.workspace-app .settings-panel .settings-group,
+body.workspace-app .settings-panel .print-setting-group.settings-group {
+  min-width: 0;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--ws-line);
+  border-radius: 10px;
+  background: transparent;
+}
+body.workspace-app .settings-panel .settings-group-title,
+body.workspace-app .settings-panel .print-setting-group h4.settings-group-title {
+  margin: 0 0 12px;
+  color: var(--ws-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+body.workspace-app .settings-fields-grid,
+body.workspace-app .settings-two-column { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; min-width: 0; }
+body.workspace-app .settings-field { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; min-width: 0; }
+body.workspace-app .settings-field-wide { grid-column: 1 / -1; }
+body.workspace-app .settings-panel .settings-field-label {
+  display: block;
+  margin: 0;
+  color: var(--ws-muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+body.workspace-app .settings-panel :is(button,input,select) { font-family: inherit; font-size: 13px; }
+body.workspace-app .settings-panel button { min-width: 0; min-height: 34px; padding: 0 10px; line-height: 1.45; }
+body.workspace-app .settings-panel .settings-control:not([type="range"]):not([type="checkbox"]) {
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 34px;
+  margin: 0 !important;
+  padding: 0 9px !important;
+  color: var(--ws-text) !important;
+  background-color: var(--ws-field) !important;
+  border: 1px solid var(--ws-line);
+  border-radius: 7px;
+  font-size: 13px;
+}
+body.workspace-app .settings-panel .settings-control:focus-visible { outline: 2px solid var(--ws-accent); outline-offset: 3px; }
+body.workspace-app .settings-panel input[type="range"].settings-control {
+  display: block;
+  width: 100% !important;
+  max-width: none;
+  min-width: 0;
+  min-height: 34px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  accent-color: var(--ws-accent);
+}
+body.workspace-app .settings-action-field > button { width: 100%; min-height: 34px; }
+body.workspace-app .settings-action-field > button[aria-pressed="true"] { color: var(--ws-accent); border-color: var(--ws-accent-soft); background-color: var(--ws-accent-soft); }
+body.workspace-app .settings-panel :is(.settings-status-text,.settings-hint),
+body.workspace-app .settings-panel p,
+body.workspace-app .settings-panel #speech-caption {
+  display: block;
+  margin: 10px 0 0 !important;
+  color: var(--ws-muted) !important;
+  font-size: 11px !important;
+  line-height: 1.75 !important;
+  overflow-wrap: anywhere;
+}
+body.workspace-app .settings-panel .settings-toggle-copy { min-width: 0; flex: 1; color: var(--ws-text); font-size: 13px; line-height: 1.5; }
+body.workspace-app .settings-panel .settings-toggle-copy .settings-hint { margin-top: 4px !important; font-weight: 400; }
+body.workspace-app .settings-panel .settings-toggle-row,
+body.workspace-app .settings-panel #print-rules-body .print-setting-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  min-height: 36px;
+  gap: 12px;
+  padding: 6px 0;
+  color: var(--ws-text);
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+body.workspace-app .settings-panel .settings-toggle-row { margin-top: 10px; }
+body.workspace-app .settings-panel input[type="checkbox"] {
+  position: relative;
+  appearance: none;
+  width: 30px !important;
+  height: 18px !important;
+  min-height: 18px;
+  flex: 0 0 30px !important;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ws-muted) !important;
+  vertical-align: middle;
+  cursor: pointer;
+}
+body.workspace-app .settings-panel input[type="checkbox"]::before {
+  position: absolute;
+  content: "";
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ws-panel);
+  transition: transform 140ms ease;
+}
+body.workspace-app .settings-panel input[type="checkbox"]:checked { background: var(--ws-accent) !important; }
+body.workspace-app .settings-panel input[type="checkbox"]:checked::before { transform: translateX(12px); }
+body.workspace-app .settings-panel input[type="checkbox"]:focus-visible { outline: 2px solid var(--ws-accent); outline-offset: 3px; }
+
+/* Print rules: aligned trigger rows, a gift quantity matrix and compact common groups. */
+body.workspace-app .settings-panel #print-rules-body.settings-rules-root { display: grid !important; gap: 12px !important; margin: 0 !important; }
+body.workspace-app .settings-trigger-columns,
+body.workspace-app .settings-panel .print-setting-card.settings-trigger-row {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 90px 110px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+body.workspace-app .settings-trigger-columns { margin: 0 0 3px; color: var(--ws-dim); font-size: 10px; }
+body.workspace-app .settings-trigger-columns > span:nth-child(n+2) { text-align: center; }
+body.workspace-app .settings-panel .print-setting-card.settings-trigger-row { padding: 8px 0; border-bottom: 1px solid var(--ws-line); }
+body.workspace-app .settings-panel .print-setting-card.settings-trigger-row:last-child { padding-bottom: 0; border-bottom: 0; }
+body.workspace-app .settings-panel .settings-trigger-row .print-setting-toggle { flex-direction: row; min-height: 34px; padding: 0 !important; }
+body.workspace-app .settings-panel .settings-trigger-row .print-setting-toggle > span { min-width: 0; flex: 1; }
+body.workspace-app .settings-panel .settings-trigger-row .print-setting-field { min-width: 0; min-height: 34px; margin: 0; }
+body.workspace-app .settings-panel .settings-trigger-row .print-setting-field > span { display: none; }
+body.workspace-app .settings-panel .print-setting-field select {
+  width: 108px;
+  min-width: 0;
+  max-width: 50%;
+  min-height: 34px;
+  padding: 0 7px;
+  border: 1px solid var(--ws-line);
+  border-radius: 7px;
+  color: var(--ws-text);
+  background: var(--ws-field);
+  font-size: 13px;
+}
+body.workspace-app .settings-panel .settings-trigger-row .print-setting-field select { width: 100%; max-width: 100%; }
+body.workspace-app .settings-panel .print-setting-field { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; min-height: 34px; margin: 4px 0; color: var(--ws-muted); font-size: 12px; line-height: 1.5; }
+body.workspace-app .settings-panel .print-setting-field > span { min-width: 0; }
+body.workspace-app .settings-gift-switches { display: grid; gap: 3px; }
+body.workspace-app .settings-gift-switches .print-setting-toggle small { display: block; margin-top: 4px; color: var(--ws-muted); font-size: 11px; line-height: 1.65; }
+body.workspace-app .settings-gift-size { border-top: 1px solid var(--ws-line); padding-top: 10px; margin-top: 9px !important; }
+body.workspace-app .settings-gift-counts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px 16px; min-width: 0; margin-top: 8px; }
+body.workspace-app .settings-gift-counts .print-setting-field { margin: 0; }
+body.workspace-app .settings-gift-counts .print-setting-field select { width: 84px; }
+body.workspace-app .settings-panel .settings-compact-group .print-setting-toggle { align-items: flex-start !important; gap: 8px !important; font-size: 12px !important; }
+body.workspace-app .settings-compact-group input[type="checkbox"] { margin-top: 1px; }
+body.workspace-app .settings-compact-group .print-setting-field select { width: 92px; font-size: 12px; }
+body.workspace-app .settings-panel .settings-demo-group .print-setting-field { margin: 0; }
+body.workspace-app .settings-panel .print-setting-note { margin: 0 !important; color: var(--ws-dim); font-size: 11px; }
+
+/* Visual settings: output and presets stay visible; uncommon technical detail collapses. */
+body.workspace-app .settings-panel .settings-disclosure {
+  min-width: 0;
+  margin: 12px 0 0;
+  border-top: 1px solid var(--ws-line);
+}
+body.workspace-app .settings-panel > .settings-disclosure { margin-top: 0; padding: 0 14px; border: 1px solid var(--ws-line); border-radius: 10px; }
+body.workspace-app .settings-panel .settings-disclosure > summary {
+  position: relative;
+  display: block;
+  min-height: 39px;
+  margin: 0;
+  padding: 12px 24px 10px 0;
+  color: var(--ws-muted) !important;
+  font-size: 12px !important;
+  font-weight: 400;
+  line-height: 1.5;
+  list-style: none;
+  cursor: pointer;
+}
+body.workspace-app .settings-panel .settings-disclosure > summary::-webkit-details-marker { display: none; }
+body.workspace-app .settings-panel .settings-disclosure > summary::after { content: "+"; position: absolute; top: 9px; right: 1px; color: var(--ws-dim); font: 18px/1.4 "Cascadia Code",Consolas,monospace; }
+body.workspace-app .settings-panel .settings-disclosure[open] > summary { color: var(--ws-text) !important; }
+body.workspace-app .settings-panel .settings-disclosure[open] > summary::after { content: "−"; }
+body.workspace-app .settings-panel .settings-details-body { padding: 0 0 12px; min-width: 0; }
+body.workspace-app .settings-panel .settings-details-body > button { max-width: 100%; white-space: normal; margin: 0 !important; }
+body.workspace-app .settings-compatibility .settings-details-body > button { width: 100%; }
+body.workspace-app .settings-panel .settings-camera-list { display: block; padding: 0; border: 0; background: transparent; }
+body.workspace-app .settings-panel .settings-camera-list > div { display: flex !important; width: 100%; flex-wrap: wrap; gap: 6px !important; align-items: center; }
+body.workspace-app .settings-panel .settings-camera-list button { min-height: 32px; padding: 0 9px; font-size: 12px; }
+body.workspace-app .settings-camera-actions,
+body.workspace-app .settings-voice-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; min-width: 0; margin-top: 12px; }
+body.workspace-app .settings-camera-actions button,
+body.workspace-app .settings-voice-actions button { width: 100%; white-space: normal; }
+
+/* Sound controls retain the browser's real voice list, range events and diagnostic player. */
+body.workspace-app .settings-audio-diagnostics .settings-details-body { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+body.workspace-app .settings-audio-diagnostics .settings-details-body > button { order: 1; }
+body.workspace-app .settings-audio-diagnostics .settings-details-body > span { order: 2; grid-column: 1 / -1; color: var(--ws-muted); font-size: 11px !important; }
+body.workspace-app .settings-audio-diagnostics .settings-details-body > audio { order: 3; grid-column: 1 / -1; width: 100% !important; min-height: 34px; color-scheme: inherit; }
+
+/* Live status elements keep their original IDs so WebSocket updates remain live. */
+body.workspace-app .settings-status-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; min-width: 0; }
+body.workspace-app .settings-status-card { min-width: 0; padding: 12px; border: 1px solid var(--ws-line); border-radius: 8px; background: var(--ws-field); }
+body.workspace-app .settings-panel .settings-status-card h4 { margin: 0 0 8px; color: var(--ws-muted); font-size: 11px; font-weight: 400; line-height: 1.5; }
+body.workspace-app .settings-status-card :is(#live-room,#live-fetch) { min-height: 24px; margin: 0 !important; color: var(--ws-text); font-size: 13px !important; line-height: 1.7 !important; overflow-wrap: anywhere; }
+body.workspace-app .settings-status-card #live-room:empty::before { content: attr(data-empty-label); color: var(--ws-dim); }
+body.workspace-app .settings-context-status { margin-top: 10px; padding: 10px 12px; border-radius: 7px; background: var(--ws-accent-soft); }
+body.workspace-app .settings-context-status:has(#yield-note:empty) { display: none; }
+body.workspace-app .settings-context-status #yield-note { margin: 0 !important; color: var(--ws-warning) !important; font-size: 12px !important; line-height: 1.7 !important; overflow-wrap: anywhere; }
+body.workspace-app .settings-connection-steps { display: grid; gap: 10px; margin: 0; padding-left: 19px; color: var(--ws-text); font-size: 13px; line-height: 1.7; }
+body.workspace-app .settings-connection-steps li::marker { color: var(--ws-accent); font-family: "Cascadia Code",Consolas,monospace; }
+
+body.workspace-app.workspace-theme-changing :is(.settings-group,.settings-disclosure,.settings-status-card,.settings-context-status,.settings-trigger-row,.settings-toggle-copy,.settings-trigger-columns,.settings-field-label,.settings-group-title) { transition: color 250ms ease,background-color 250ms ease,border-color 250ms ease; }
+@container (max-width:390px) {
+  body.workspace-app .settings-fields-grid,
+  body.workspace-app .settings-two-column,
+  body.workspace-app .settings-status-grid { grid-template-columns: minmax(0,1fr); }
+  body.workspace-app .settings-trigger-columns,
+  body.workspace-app .settings-panel .print-setting-card.settings-trigger-row { grid-template-columns: minmax(0,1fr) 72px 86px; gap: 7px; }
+  body.workspace-app .settings-panel .settings-trigger-row .print-setting-toggle { gap: 6px; font-size: 12px !important; }
+  body.workspace-app .settings-panel .settings-trigger-row select { font-size: 12px; }
+  body.workspace-app .settings-gift-counts { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width:420px) {
+  body.workspace-app .workspace-settings-body:has(.settings-panel) { padding-right: 12px; padding-left: 12px; }
+  body.workspace-app .settings-panel .settings-group { padding: 12px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.workspace-app .settings-panel input[type="checkbox"]::before,
+  body.workspace-app.workspace-theme-changing :is(.settings-group,.settings-disclosure,.settings-status-card,.settings-context-status,.settings-trigger-row,.settings-toggle-copy,.settings-trigger-columns,.settings-field-label,.settings-group-title) { transition: none !important; }
+}

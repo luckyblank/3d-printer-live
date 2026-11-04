@@ -1,0 +1,2 @@
+# Preserve the original upstream bytes for the signing assets and license files.
+third_party/douyin-sign/* -text

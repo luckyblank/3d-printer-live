@@ -1,0 +1,123 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>直播小窗 · Avatar Printer</title><style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#000;overflow:hidden}
+video{width:100%;height:100%;object-fit:cover;object-position:center;display:block;background:#000}
+#hint{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#667282;font:14px 'Microsoft YaHei',sans-serif;letter-spacing:1px;text-align:center;line-height:1.9}
+#hint a{color:#9fc3e8}
+</style><link rel="stylesheet" href="assets/scene-window-view.css"></head><body>
+<div id="hint"><div>⏳ 等待主窗口直播画面…</div><div style="font-size:12px">请保持主窗口（打印台）开启且不要最小化<br><a id="fallback" href="/index.html?scene=1" style="display:none">镜像不可用？点此用独立渲染窗口打开</a></div></div>
+<video id="v" autoplay playsinline muted></video>
+<div id="interaction" tabindex="0" aria-label="左键旋转，右键平移，滚轮缩放" style="position:fixed;touch-action:none;outline:none"></div>
+<script type="importmap">{"imports":{"three":"./assets/three.module.js"}}</script>
+<script type="module">
+import * as THREE from './assets/three.module.js';
+import {OrbitControls} from './assets/OrbitControls.js';
+// Mirror the workbench's 3D video and display bounded metadata overlays.
+// This window does not render/print or participate in print leader election.
+import {SceneChannel} from './scene-channel.mjs';
+import {createSceneWindowView} from './scene-window-view.mjs';
+const initialTheme=new URLSearchParams(location.search).get('theme');
+let currentTheme=initialTheme==='light'?'light':'dark',appliedNativeTheme=null,themeSyncing=false;
+const sceneWindowView=createSceneWindowView({theme:currentTheme});
+async function syncWindowTheme(){
+ const api=window.pywebview?.api;if(themeSyncing||typeof api?.set_window_theme!=='function')return;
+ themeSyncing=true;
+ try{while(appliedNativeTheme!==currentTheme){const theme=currentTheme;const result=await api.set_window_theme(theme);if(result?.applied===false){if(theme===currentTheme)break;}else appliedNativeTheme=theme;}}
+ catch{}finally{themeSyncing=false;}
+}
+function applyWindowTheme(theme){if(theme!=='dark'&&theme!=='light')return;currentTheme=theme;sceneWindowView.setTheme(theme);syncWindowTheme();}
+window.addEventListener('pywebviewready',()=>{appliedNativeTheme=null;syncWindowTheme();void sceneWindowView.nativeReady();});
+syncWindowTheme();
+const bc = new SceneChannel();
+let inputChannel=null,pendingIce=[];
+function sendControl(m){if(inputChannel?.readyState==='open')inputChannel.send(JSON.stringify(m));else bc.postMessage(m)}
+const v = document.getElementById('v'), hint = document.getElementById('hint');
+v.addEventListener('playing',()=>{try{bc.postMessage({type:'view-ready'})}catch(e){}});
+let pc = null, watchdog = 0, connected = false;
+const interaction=document.getElementById('interaction');
+const camera=new THREE.PerspectiveCamera(36,16/9,.1,500);
+const controls=new OrbitControls(camera,interaction);
+controls.enabled=false;controls.enableDamping=true;controls.maxPolarAngle=Math.PI/2-.05;controls.minDistance=3;controls.maxDistance=180;
+controls.listenToKeyEvents(interaction);
+let syncing=false,interacting=false;
+controls.addEventListener('start',()=>interacting=true);
+controls.addEventListener('end',()=>interacting=false);
+controls.addEventListener('change',()=>{if(!syncing)sendControl({type:'view-camera-change',p:camera.position.toArray(),t:controls.target.toArray()})});
+interaction.addEventListener('pointerdown',()=>interaction.focus());
+function layout(){const aspect=(v.videoWidth||1280)/(v.videoHeight||720);const w=Math.max(innerWidth,innerHeight*aspect),h=w/aspect;Object.assign(interaction.style,{width:w+'px',height:h+'px',left:(innerWidth-w)/2+'px',top:(innerHeight-h)/2+'px'});camera.aspect=aspect;camera.updateProjectionMatrix();sceneWindowView.resize(innerWidth,innerHeight);}
+window.addEventListener('resize',layout);v.addEventListener('resize',layout);layout();
+function tick(){requestAnimationFrame(tick);if(controls.enabled)controls.update()}tick();
+
+function showHint(on) { hint.style.display = on ? 'flex' : 'none' }
+function armWatchdog() { clearTimeout(watchdog); watchdog = setTimeout(() => { if (!v.srcObject || v.readyState < 2) { connected = false; showHint(true); request() } }, 5000) }
+function request() { try { bc.postMessage({ type: 'view-request' }) } catch (e) { } }
+function teardown() { inputChannel=null; if (pc) { try { pc.close() } catch (e) { } pc = null } v.srcObject = null; connected = false }
+
+bc.onmessage = async ev => {
+  const m = ev.data || {};
+  if(m.type==='workspace-theme'){applyWindowTheme(m.theme);}
+  else if(m.type==='view-settings'){void sceneWindowView.applySettings(m.settings);}
+  else if(m.type==='view-overlay-state'){sceneWindowView.applySnapshot(m.snapshot);}
+  else if(m.type==='view-size'&&Number.isFinite(m.width)&&Number.isFinite(m.height)){window.pywebview?.api?.resize_scene(m.width,m.height).catch(()=>{});}
+  else if(m.type==='view-camera'&&!interacting){syncing=true;const damping=controls.enableDamping;controls.enableDamping=false;controls.update();camera.position.fromArray(m.p);controls.target.fromArray(m.t);camera.fov=m.fov;camera.updateProjectionMatrix();controls.update();controls.enableDamping=damping;controls.enabled=true;syncing=false;}
+  else if (m.type === 'view-offer' && m.sdp) {
+    bc.postMessage({type:'view-camera-request'});
+    try {
+      teardown();
+      pc = new RTCPeerConnection();
+      pc.ondatachannel=e=>{inputChannel=e.channel};
+      pc.ontrack = e => {
+        v.srcObject = e.streams[0];
+        v.play().catch(() => { });
+        connected = true; showHint(false); armWatchdog();
+      };
+      pc.onicecandidate = e => { if (e.candidate) try { bc.postMessage({ type: 'view-ice', candidate: { candidate: e.candidate.candidate, sdpMid: e.candidate.sdpMid, sdpMLineIndex: e.candidate.sdpMLineIndex } }) } catch (e) { } };
+      pc.onconnectionstatechange = () => { if (pc && (pc.connectionState === 'failed' || pc.connectionState === 'disconnected')) reset() };
+      await pc.setRemoteDescription(m.sdp);
+      for(const c of pendingIce.splice(0))await pc.addIceCandidate(c);
+      const ans = await pc.createAnswer();
+      await pc.setLocalDescription(ans);
+      try { bc.postMessage({ type: 'view-answer', sdp: { type: ans.type, sdp: ans.sdp } }) } catch (e) { }
+    } catch (e) { reset() }
+  } else if (m.type === 'view-ice' && pc && m.candidate) {
+    try { pc.remoteDescription?pc.addIceCandidate(m.candidate).catch(() => { }):pendingIce.push(m.candidate) } catch (e) { }
+  }
+};
+function reset() { teardown(); showHint(true); request(); armWatchdog() }
+
+// SCENE_VIEWER_STATS_START
+let previousFrames=0,previousStatsAt=performance.now(),viewerStatsBusy=false;
+function viewerVideoCounters(report){
+ const totals={framesDecoded:null,framesReceived:null,bytesReceived:null};
+ report?.forEach?.(row=>{
+  if(row?.type!=='inbound-rtp'||(row.kind||row.mediaType)!=='video'||row.isRemote===true)return;
+  for(const key of Object.keys(totals))if(typeof row[key]==='number'&&Number.isFinite(row[key])&&row[key]>=0)totals[key]=(totals[key]??0)+row[key];
+ });
+ return totals;
+}
+async function publishViewerStats(){
+ if(!connected||viewerStatsBusy)return false;
+ viewerStatsBusy=true;const peer=pc,now=performance.now();
+ try{
+  let quality=null,statsError='';try{quality=v.getVideoPlaybackQuality?.()||null}catch(error){statsError=String(error?.name||'quality-unavailable').slice(0,80)}
+  if(!quality&&!statsError)statsError='quality-unavailable';
+  const total=Number.isFinite(quality?.totalVideoFrames)?quality.totalVideoFrames:null,dropped=Number.isFinite(quality?.droppedVideoFrames)?quality.droppedVideoFrames:null;
+  const frames=total!==null&&dropped!==null?total-dropped:null;
+  const fps=frames!==null?Math.max(0,Math.round((frames-previousFrames)*1000/Math.max(1,now-previousStatsAt))):0;
+  if(frames!==null)previousFrames=frames;previousStatsAt=now;
+  const message={type:'view-stats',role:'viewer',fps,width:v.videoWidth,height:v.videoHeight,totalVideoFrames:total,droppedVideoFrames:dropped,
+   currentTime:Number.isFinite(v.currentTime)?v.currentTime:null,paused:!!v.paused,readyState:v.readyState,visibility:document.visibilityState||'unknown',hidden:!!document.hidden,pcState:peer?.connectionState||'none',
+   framesDecoded:null,framesReceived:null,bytesReceived:null,statsError};
+  try{if(typeof peer?.getStats==='function')Object.assign(message,viewerVideoCounters(await peer.getStats()));else message.statsError='stats-unavailable'}catch(error){message.statsError=String(error?.name||'getStats-failed').slice(0,80)}
+  if(peer!==pc)return false;
+  try{bc.postMessage(message)}catch{}
+  return true;
+ }finally{viewerStatsBusy=false;}
+}
+// SCENE_VIEWER_STATS_END
+setInterval(publishViewerStats,2000);
+request();
+setInterval(() => { try { bc.postMessage(connected ? { type: 'view-ping' } : { type: 'view-request' }) } catch (e) { } }, 3000);
+armWatchdog();
+window.addEventListener('beforeunload', () => { sceneWindowView.destroy();try { bc.postMessage({ type: 'view-bye' }) } catch (e) { } });
+</script>
+</body></html>

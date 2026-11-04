@@ -1,0 +1,55 @@
+# ===== 登录态与浏览器配置（含 Cookie/会话，绝不上传）=====
+.bridge-profile/
+.live-webview-profile/
+.printer-webview-profile/
+.scene-webview-profile/
+
+# ===== 运行状态与日志（含观众昵称、弹幕、房间号）=====
+*.log
+.bridge-room
+__pycache__/
+
+# ===== 内部验收记录（含真实观众昵称与头像链接）=====
+avatar-acceptance.json
+AVATAR-ACCEPTANCE.md
+TEST-REPORT.md
+
+# ===== 本地参考图片（不发布）=====
+storyboard.jpg
+reference.jpg
+/index.previous.html
+/exports/
+/designs/preview-check.json
+
+# ===== 头像持久缓存与协议探针产物（含观众昵称，不发布）=====
+avatar-cache.json
+ws-samples/
+live-acceptance.log
+
+# ===== 发布压缩包（不入库）=====
+*.zip
+
+.err-check/
+.popup-test/
+.diag-profile/
+popup-test-result.json
+
+.output-test/
+.capture-compat*
+
+.cover-profile/
+.snd-profile/
+.err-check/
+
+# Desktop packaging environment and generated artifacts
+.build-venv/
+/build/*
+!/build/ui-update-files.json
+!/build/verification/
+/build/verification/*
+!/build/verification/refresh-clean-zip.py
+!/build/verification/sync-latest-desktop.py
+dist/
+node_modules/
+.collector-auth.bin
+.collector-auth.bin.*

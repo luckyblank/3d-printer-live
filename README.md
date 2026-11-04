@@ -84,6 +84,8 @@ Remove-Item Env:PRINTER_COLLECTOR
 
 ## 界面预览
 
+[观看《头像打印机》宣传片（36.8 秒，1080p）](https://qny.luckyblank.cn/avatar-printer-promo.mp4)
+
 以下为场景与功能示意，当前操作路径以工作台及内置帮助为准。
 
 <p align="center">

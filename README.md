@@ -73,7 +73,14 @@ Remove-Item Env:PRINTER_COLLECTOR
 
 ## 验证范围
 
-本地自动化测试通过 `npm test` 运行，覆盖事件映射、去重、礼物连击、生命周期与界面状态等路径。**本次集成不代表已验证真实直播间礼物完整性或长时间在线稳定性**；这些仍需在实际直播间、有效登录与不同网络环境下检查。当前版本不会承诺所有账号和直播间都能收到完全一致的公开事件。
+从项目根目录运行自动化测试。
+
+- `npm test` 运行 [Node.js 测试](tests/node)，覆盖事件映射、礼物连击、渲染和界面状态。
+- `python -m unittest discover -s tests/python -t .` 运行 [Python 测试](tests/python)，覆盖桌面窗口、采集生命周期与打包。
+
+[手动联调脚本](tests/manual)包含浏览器小窗、WebView2 输出和直播 WebSocket 诊断。运行小窗联调前需关闭正在运行的桌面版。WebView2 联调命令为 `python -m tests.manual.test_native_output`。
+
+**本次集成不代表已验证真实直播间礼物完整性或长时间在线稳定性**；这些仍需在实际直播间、有效登录与不同网络环境下检查。当前版本不会承诺所有账号和直播间都能收到完全一致的公开事件。
 
 ## 界面预览
 

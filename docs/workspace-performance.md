@@ -52,8 +52,8 @@
 
 ## 验证
 
-- `node --test *.test.mjs`：367 项通过、0 失败，包含帧缓冲预算、原生清晰度下限、几何复用、合批、资源释放、头像缩图、队列容量、礼物插队、启动界面、原生按钮、铺满几何、音频状态、四面板样式、原 PNG 内联回退、桌面缩放把手、四类互动规则同步及完整规则适配回归。最终全量结果记录于 `build/verification/tests-latest.txt`。
-- Python 回归命令：`python -m unittest test_scene_native_dispatch test_scene_relay test_scene_settings_native test_scene_window_frame test_scene_window_resize test_window_theme test_scene_window_size test_window_chrome test_window_maximize test_window_size test_desktop_package test_collector_auth test_collector_lifecycle test_collector_launch`：十四个模块共 129 项通过，覆盖实际 Python 双线程派发契约、场景中继、桌面资源清单、窗口尺寸、原生标题栏主题及操作、DWM 轮廓隐藏、左右客户区扩展与 UI 所属线程限制、仅小窗的非阻塞缩放与左键释放检查、工作区最大化与状态同步。21 字段外观设置校验包含四面板位置与背景不透明度 0/100 端点、缩放 60/100/160；业务规则快照严格校验完整 18 字段，覆盖四类互动的真实开关、张数与大小，以及错误类型、缺失/额外字段与旧网络格式拒绝。已核对 `build/verification/python-latest.txt` 尾部为 `Ran 129 tests`、`OK`。
+- 测试目录迁移前的 Node.js 回归记录为 367 项通过、0 失败，包含帧缓冲预算、原生清晰度下限、几何复用、合批、资源释放、头像缩图、队列容量、礼物插队、启动界面、原生按钮、铺满几何、音频状态、四面板样式、原 PNG 内联回退、桌面缩放把手、四类互动规则同步及完整规则适配回归。原始结果记录于 `build/verification/tests-latest.txt`。当前使用 `npm test`。
+- Python 回归命令：`python -m unittest discover -s tests/python -t .`：十四个模块共 129 项通过，覆盖实际 Python 双线程派发契约、场景中继、桌面资源清单、窗口尺寸、原生标题栏主题及操作、DWM 轮廓隐藏、左右客户区扩展与 UI 所属线程限制、仅小窗的非阻塞缩放与左键释放检查、工作区最大化与状态同步。21 字段外观设置校验包含四面板位置与背景不透明度 0/100 端点、缩放 60/100/160；业务规则快照严格校验完整 18 字段，覆盖四类互动的真实开关、张数与大小，以及错误类型、缺失/额外字段与旧网络格式拒绝。已核对 `build/verification/python-latest.txt` 尾部为 `Ran 129 tests`、`OK`。
 - 小窗专项回归覆盖设置存储、旧五开关与八字段配置迁移、四面板九宫格预设与微调、背景不透明度、整体缩放、唯一入口、跨 profile 传输、快照合并、真实礼物规则、独立卡片更新与低高度布局。实际浏览器检查核对原 PNG 加载、规则变化、队列与暂停任务同步，以及全部信息关闭后的纯画面。
 - 完整规则浏览器证据为 `build/verification/all-trigger-rules-browser.json`：480×270 视口、请求缩放 160% 时，评论、进场、点赞、关注与四类礼物规则均完整显示，`clipY` 为 0，三张原礼物 PNG 的 `loaded` 均为 `true`。记录中 `autoFit` 为 `true`、`fit` 约为 `0.82219`，保存的请求缩放 `requestedScale` 仍为 `160`。
 - 原 PNG 路径强制失败的浏览器验证记录于 `build/verification/gift-icon-fallback-browser.json`：爱心、啤酒、棒棒糖三张图均切换到内联原图，3/3 成功解码、保持可见且尺寸非零；该结果验证图像资源回退，不代替原生窗口 frame 的实机验证。
@@ -63,7 +63,7 @@
 - 原生修复后的实机响应记录为 `build/verification/native-window-responsiveness.json`：21:42:44 至 21:43:45 约 60 秒内的七次采样，主窗口与直播小窗均为 `Responding: true`。窗口响应与视频播放分别核对；`build/verification/native-scene-restored-playback.json` 记录小窗恢复播放后的五条解码采样，分辨率均为 1920×1080，帧率依次为 21、21、22、27、25 FPS。
 - 上述结果是本机短时响应与播放证据，未完成统一场景和设置下的总进程内存前后对照；渲染缓冲预算与资源上限不作为整体内存下降幅度的结论。
 - 在浏览器检查 1366×768 单屏无页面溢出，真实桌面版检查启动、打印、设置与独立输出。未连接真实直播间执行抓取验证。
-- 早期 `test_native_output.py` 在多个主窗口并行时发生握手超时；后续在单桌面实例中实测独立输出和主窗口接管。完整自动化测试须先关闭其他主窗口再运行。
+- 早期 `tests/manual/test_native_output.py` 在多个主窗口并行时发生握手超时；后续在单桌面实例中实测独立输出和主窗口接管。运行此项手动联调前须关闭其他主窗口。
 
 ## 桌面资源
 

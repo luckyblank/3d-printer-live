@@ -84,17 +84,24 @@ Remove-Item Env:PRINTER_COLLECTOR
 
 ## 界面预览
 
-[观看《头像打印机》宣传片（36.8 秒，1080p）](https://qny.luckyblank.cn/avatar-printer-promo.mp4)
+<video src="https://qny.luckyblank.cn/avatar-printer-promo.mp4" controls preload="metadata" width="100%"></video>
 
-以下为场景与功能示意，当前操作路径以工作台及内置帮助为准。
+[打开《头像打印机》宣传片（36.8 秒，1080p）](https://qny.luckyblank.cn/avatar-printer-promo.mp4)
+
+### 直播工作台
+
+![新版直播工作台，左侧为打印现场，右侧为直播连接和任务队列](docs/screenshots/live-workspace.webp)
+
+### 打印规则与画质设置
 
 <p align="center">
-  <img src="docs/screenshots/01-3d-scene.jpg" width="49%" alt="3D打印现场（AI生图背景）">
-  <img src="docs/screenshots/04-main-page.jpg" width="49%" alt="主界面与直播连接面板"><br>
-  <img src="docs/screenshots/02-rules-panel.png" width="32%" alt="规则演示台">
-  <img src="docs/screenshots/03-print-log.png" width="32%" alt="打印记录">
-  <img src="docs/screenshots/05-controls.png" width="32%" alt="控制与声音面板">
+  <img src="docs/screenshots/print-rules.webp" width="49%" alt="浅色主题下的打印规则设置">
+  <img src="docs/screenshots/render-settings.webp" width="49%" alt="深色主题下的输出分辨率、目标帧率与流畅优先设置">
 </p>
+
+### 独立直播小窗
+
+![独立直播小窗，显示头像打印现场与互动规则](docs/screenshots/live-output.webp)
 
 ## 构建 Windows 桌面包
 

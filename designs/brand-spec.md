@@ -12,7 +12,7 @@
 ## 真实资产
 
 - 应用图标：`assets/printer.ico`，来自 `build/desktop/printer.ico`。
-- 场景：`assets/print-scene.jpg`，来自 `docs/screenshots/01-3d-scene.jpg`，保留原软件真实画面。
+- 场景：`assets/print-scene.jpg`，保留原软件真实画面。
 - 测试头像：`assets/avatar-atlas.png`，来自软件已有测试头像图集。对应昵称沿用 `assets/generated/avatar-names.json`，为原创虚构昵称。
 - 场景内麻薯团子、蓝莓布丁、气泡水呀及分数来自现有场景截图；设计稿不代表当前实时打印状态。
 
